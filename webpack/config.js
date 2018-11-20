@@ -1,7 +1,7 @@
 const webpack = require('webpack');
 const path = require('path');
 
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 const paths = {
   source: path.join(__dirname, '../source/client'),
@@ -29,7 +29,9 @@ const IS_PRODUCTION = NODE_ENV === 'production';
 // Shared plugins
 const plugins = [
   // Extracts CSS to a file
-  new ExtractTextPlugin(outputFiles.css),
+  new MiniCssExtractPlugin({
+    filename: outputFiles.css,
+  }),
   // Injects env variables to our app
   new webpack.DefinePlugin({
     'process.env': {
@@ -39,30 +41,7 @@ const plugins = [
   }),
 ];
 
-if (IS_PRODUCTION) {
-  // Shared production plugins
-  plugins.push(
-    new webpack.optimize.UglifyJsPlugin({
-      compress: {
-        comparisons: true,
-        conditionals: true,
-        dead_code: true,
-        drop_console: true,
-        drop_debugger: true,
-        evaluate: true,
-        if_return: true,
-        join_vars: true,
-        screw_ie8: true,
-        sequences: true,
-        unused: true,
-        warnings: false,
-      },
-      output: {
-        comments: false,
-      },
-    })
-  );
-} else {
+if (IS_DEVELOPMENT) {
   // Shared development plugins
   plugins.push(
     // Enables pretty names instead of index
@@ -138,44 +117,42 @@ const rules = [
 if (IS_PRODUCTION) {
   rules.push(
     {
-      test: /\.scss$/,
-      loader: ExtractTextPlugin.extract({
-        fallback: 'style-loader',
-        use: [
-          {
-            loader: 'css-loader',
-            options: {
-              importLoaders: 1,
-              minimize: true,
-            },
+      test: /\.css$/,
+      use: [
+        MiniCssExtractPlugin.loader,
+        {
+          loader: 'css-loader',
+          options: {
+            importLoaders: 1,
+            minimize: true,
           },
-          'sass-loader',
-        ],
-      }),
+        },
+        'postcss-loader',
+      ],
     }
   );
 } else {
   rules.push(
     {
-      test: /\.scss$/,
+      test: /\.css$/,
       exclude: /node_modules/,
       use: [
         {
-          loader: "style-loader", // creates style nodes from JS strings
+          loader: 'style-loader',
           options: { sourceMap: true },
-        }, 
+        },
         {
-          loader: "css-loader", // translates CSS into CommonJS
+          loader: 'css-loader',
           options: {
             importLoaders: 1,
             sourceMap: true,
           },
-        }, 
+        },
         {
-          loader: "sass-loader", // compiles Sass to CSS
+          loader: 'postcss-loader',
           options: { sourceMap: true },
-        }
-      ]
+        },
+      ],
     }
   );
 }

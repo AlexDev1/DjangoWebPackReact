@@ -10,8 +10,8 @@ import { Provider } from 'react-redux';
 import configureStore from 'config/store';
 import App from 'views/App';
 
-// Load SCSS
-import 'index.scss';
+// Load CSS
+import 'index.css';
 
 const store = configureStore().store;
 
