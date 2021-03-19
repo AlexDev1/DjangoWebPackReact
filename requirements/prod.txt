@@ -42,7 +42,7 @@ django-tagging==0.4.6
 django-threadedcomments==1.2
 django-tinymce==2.7.0
 django-watson==1.5.2
-djangorestframework==3.8.2
+djangorestframework==3.11.2
 et-xmlfile==1.0.1
 feedparser==5.2.1
 html5lib==1.0.1
