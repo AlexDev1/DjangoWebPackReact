@@ -71,7 +71,7 @@ python-akismet==0.4.1
 python-memcached==1.59
 pytils==0.3
 pytz==2018.5
-PyYAML==3.13
+PyYAML==5.4
 rcssmin==1.0.6
 redis==2.10.6
 reportlab==3.5.6
