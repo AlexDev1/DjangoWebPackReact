@@ -64,7 +64,7 @@ prompt-toolkit==2.0.6
 psycopg2==2.7.5
 psycopg2-binary==2.7.5
 ptyprocess==0.6.0
-Pygments==2.2.0
+Pygments==2.7.4
 PyPDF2==1.26.0
 pytest-runner==4.2
 python-akismet==0.4.1
